@@ -5,7 +5,17 @@
     "singleQuote": false,
     "printWidth": 100,
     "trailingComma": "es5",
+    "importOrder": [
+        "^@?[\\w/]+$",
+        "^prismjs/",
+        "^\\.\\.?/.+\\.\\ts$",
+        "^\\.\\.?/.+\\.vue$",
+        "^\\.\\.?/.+\\.css$"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
     "plugins": [
+        "@trivago/prettier-plugin-sort-imports",
         "prettier-plugin-tailwindcss"
     ]
 }

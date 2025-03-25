@@ -1,3 +1,37 @@
-@tailwind base;
-@tailwind components;
+@import "tailwindcss";
+@import "preline/variants.css";
+@import "preline/src/plugins/dropdown/variants.css";
+
 @tailwind utilities;
+
+@font-face {
+  font-family: "Ubuntu Mono";
+  font-style: normal;
+  font-weight: auto;
+  font-display: auto;
+  src: url("/fonts/UbuntuMono-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: auto;
+  src: url("/fonts/NotoSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: auto;
+  src: url("/fonts/NotoSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: auto;
+  src: url("/fonts/NotoSans-Bold.ttf") format("truetype");
+}
