@@ -1,10 +1,10 @@
-FROM node:22-alpine3.21 AS builder
+FROM node:23-alpine3.21 AS builder
 
 WORKDIR /app
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases/ .yarn/releases/
-RUN corepack enable && yarn set version 4.7.0
+RUN corepack enable && yarn set version 4.8.1
 # Installing dependencies now, so as not to refetch them all when something in src changes
 RUN yarn install
 
@@ -15,7 +15,7 @@ COPY src/ src/
 
 ARG APP_VERSION=dev
 
-RUN VITE_APP_VERSION=$APP_VERSION yarn run build
+RUN VITE_APP_VERSION=$APP_VERSION yarn run build --minify=true
 
 FROM nginxinc/nginx-unprivileged:1.27-alpine3.21-slim
 
