@@ -1,5 +1,6 @@
 import { fetchSuite } from "../composables/requests.ts";
 import { filterTests } from "../composables/utils.ts";
+import { NO_SUITE_NAME } from "../composables/utils.ts";
 import { Filters } from "../models/filters.ts";
 import { TestSuite } from "../models/test-suite.ts";
 import { Test } from "../models/test.ts";
@@ -15,6 +16,7 @@ export const useDataStore = defineStore("data", {
       selectedTest: null as Test | null,
       filters: {} as Filters,
       selected: {} as Record<string, Record<string, boolean>>,
+      searchQuery: "",
     };
   },
   getters: {
@@ -22,23 +24,49 @@ export const useDataStore = defineStore("data", {
       state.suites.filter((suite) => {
         for (const [filterType, filterValues] of Object.entries(suite.filters)) {
           for (const value of filterValues) {
-            if (!state.selected[filterType][value]) {
+            const selType = state.selected[filterType];
+            if (selType && selType[value] !== undefined && !selType[value]) {
               return false;
             }
           }
+        }
+
+        if (
+          state.searchQuery &&
+          !suite.content.some((line) => line.toLowerCase().includes(state.searchQuery))
+        ) {
+          return false;
         }
 
         return true;
       }),
     testsCount: (state) => state.suites.reduce((acc, suite) => acc + suite.testsList.length, 0),
     selectedTestsCount: (state) => {
-      // @ts-ignore
-      return state.filteredSuites
-        .map((suite: TestSuite) => filterTests(suite.testsList, state.selected))
-        .flat().length;
+      if (state.selectedSuite == null) {
+        return 0;
+      }
+
+      if (state.selectedSuite.name === NO_SUITE_NAME) {
+        // @ts-ignore
+        return state.filteredSuites
+          .map((suite: TestSuite) =>
+            filterTests(suite.testsList, state.selected, state.searchQuery)
+          )
+          .flat().length;
+      }
+
+      return filterTests(state.selectedSuite.testsList, state.selected, state.searchQuery).length;
     },
   },
   actions: {
+    $reset() {
+      this.suites = [];
+      this.tests = [];
+      this.selectedSuite = null;
+      this.selectedTest = null;
+      this.filters = {};
+      this.selected = {};
+    },
     async updateSuite(name: string, suite?: TestSuite) {
       if (!suite) {
         suite = await fetchSuite(name);

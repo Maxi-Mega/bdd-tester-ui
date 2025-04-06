@@ -81,14 +81,22 @@ export function executionStatusColor(status: ExecutionStatus): string {
   }
 }
 
-export function filterTests(tests: TestType[], selected: Record<string, Record<string, boolean>>) {
+export function filterTests(
+  tests: TestType[],
+  selected: Record<string, Record<string, boolean>>,
+  searchQuery: string
+): Test[] {
   return tests.filter((test) => {
     for (const [filterType, filterValues] of Object.entries(test.filters)) {
       for (const value of filterValues) {
-        if (!selected[filterType][value]) {
+        if (selected[filterType] && !selected[filterType][value]) {
           return false;
         }
       }
+    }
+
+    if (searchQuery && !test.content.some((line) => line.toLowerCase().includes(searchQuery))) {
+      return false;
     }
 
     return true;

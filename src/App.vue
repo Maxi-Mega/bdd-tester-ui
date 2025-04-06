@@ -77,19 +77,29 @@ function handleWSFailure() {
   alert("Failed to connect WebSocket");
 }
 
-fetchStaticInfo().then((info) => {
-  useStaticInfoStore().staticInfo = info;
+fetchStaticInfo()
+  .then((info) => {
+    useStaticInfoStore().staticInfo = info;
 
-  if (info.windowTitle) document.title = info.windowTitle;
-  if (info.faviconBase64) useFavicon(() => info.faviconBase64);
-});
+    if (info.windowTitle) document.title = info.windowTitle;
+    if (info.faviconBase64) useFavicon(() => info.faviconBase64);
+  })
+  .catch((reason) => {
+    console.error(reason);
+    alert(reason);
+  });
 
 const suitesLoading = ref(true);
 const testsLoading = ref(false);
 
 const statistics = ref<Stats | undefined>();
 
-fetchStatistics().then((stats) => (statistics.value = stats));
+fetchStatistics()
+  .then((stats) => (statistics.value = stats))
+  .catch((reason) => {
+    console.error(reason);
+    alert(reason);
+  });
 
 fetchAllSuites()
   .then((suites) => {
@@ -97,7 +107,7 @@ fetchAllSuites()
     dataStore.makeFilters();
   })
   .catch((reason) => {
-    console.warn(reason);
+    console.error(reason);
     alert(reason);
   })
   .finally(() => (suitesLoading.value = false));
@@ -112,7 +122,7 @@ function selectSuite(suite: TestSuite) {
     fetchAllTests()
       .then((tests) => (dataStore.tests = tests))
       .catch((reason) => {
-        console.warn(reason);
+        console.error(reason);
         alert(reason);
       })
       .finally(() => (testsLoading.value = false));

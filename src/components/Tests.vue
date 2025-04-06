@@ -24,9 +24,9 @@ const _tests = computed(() => {
   if (!selectedSuite.value) {
     return [];
   } else if (selectedSuite.value.name === NO_SUITE_NAME) {
-    return filterTests(tests.value, dataStore.selected);
+    return filterTests(tests.value, dataStore.selected, dataStore.searchQuery);
   } else {
-    return filterTests(selectedSuite.value.testsList, dataStore.selected);
+    return filterTests(selectedSuite.value.testsList, dataStore.selected, dataStore.searchQuery);
   }
 });
 

@@ -11,7 +11,13 @@ export const API_BASE_PATH = "/bdd-tester/server/api";
 
 export async function fetchStaticInfo(): Promise<StaticInfo> {
   return fetch(`${API_BASE_PATH}/info`)
-    .then((resp) => (resp.ok ? resp.json() : Promise.reject(resp)))
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(`Failed to retrieve static info: ${res.status} - ${res.statusText}`);
+    })
     .then((info) => Object.assign(new StaticInfo(), info));
 }
 
@@ -44,7 +50,7 @@ export async function fetchAllSuites(): Promise<TestSuite[]> {
           .sort((a: TestSuite, b: TestSuite) => a.name.localeCompare(b.name));
       });
     } else {
-      throw new Error(`Failed to retrieve test suites: ${res.status} - ${res.statusText}`);
+      return Promise.reject(`Failed to retrieve test suites: ${res.status} - ${res.statusText}`);
     }
   });
 }
@@ -63,7 +69,7 @@ export async function fetchAllTests(): Promise<Test[]> {
           return values.map(parseTest);
         });
       } else {
-        throw new Error(`Failed to retrieve tests: ${res.status} - ${res.statusText}`);
+        return Promise.reject(`Failed to retrieve tests: ${res.status} - ${res.statusText}`);
       }
     })
     .catch((err) => {
@@ -72,11 +78,13 @@ export async function fetchAllTests(): Promise<Test[]> {
 }
 
 export async function fetchStatistics(): Promise<Stats> {
-  return fetch(`${API_BASE_PATH}/stats`).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
+  return fetch(`${API_BASE_PATH}/stats`)
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
 
-    throw new Error(`Failed to retrieve statistics: ${res.status} - ${res.statusText}`);
-  });
+      console.error(`Failed to retrieve statistics: ${res.status} - ${res.statusText}`);
+    })
+    .catch((reason) => console.error("Failed to fetch statistics:", reason));
 }

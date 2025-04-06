@@ -1,4 +1,4 @@
-FROM bdd-tester-ui-build:v0.0.6-SNAPSHOT AS builder
+FROM bdd-tester-ui-build:v0.0.7 AS builder
 
 COPY env.d.ts postcss.config.js tailwind.config.js tsconfig.app.json tsconfig.json tsconfig.node.json vite.config.ts ./
 COPY index.html .
