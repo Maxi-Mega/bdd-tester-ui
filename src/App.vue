@@ -74,6 +74,7 @@ function handleWSEvent(_: WebSocket, event: MessageEvent) {
 
 function handleWSFailure() {
   dataStore.$reset();
+  statistics.value = undefined;
   alert("Failed to connect WebSocket");
 }
 

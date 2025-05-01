@@ -39,7 +39,7 @@ function stop() {
       <p class="text-base text-neutral-400">All tests</p>
     </div>
     <div class="flex w-1/12 items-center justify-center">
-      <span class="flex translate-y-0.5 pr-1 pl-2 text-lg">
+      <span class="flex translate-y-0.5 pr-5 pl-2 text-lg">
         <button
           class="cursor-pointer text-neutral-100 transition hover:text-green-600"
           title="Start"
