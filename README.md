@@ -5,5 +5,5 @@
 ## Docker image generation
 
 ```shell
-docker build -t bdd-tester-ui:vX.X.X --build-arg APP_VERSION="vX.X.X" .
+docker buildx build -t bdd-tester-ui:vX.X.X --build-arg APP_VERSION="vX.X.X" .
 ```

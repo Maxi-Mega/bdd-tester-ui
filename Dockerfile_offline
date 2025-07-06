@@ -1,4 +1,4 @@
-FROM bdd-tester-ui-build:v0.0.8 AS builder
+FROM bdd-tester-ui-base:v0.0.9 AS builder
 
 COPY env.d.ts postcss.config.js tailwind.config.js tsconfig.app.json tsconfig.json tsconfig.node.json vite.config.ts ./
 COPY index.html .
@@ -9,7 +9,7 @@ ARG APP_VERSION=dev
 
 RUN VITE_APP_VERSION=$APP_VERSION yarn run build
 
-FROM nginxinc/nginx-unprivileged:1.28-alpine3.21-slim
+FROM nginxinc/nginx-unprivileged:1.29-alpine3.22-slim
 
 WORKDIR /usr/share/nginx/html/bdd-tester/ui
 

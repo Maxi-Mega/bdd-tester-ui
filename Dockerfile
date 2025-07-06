@@ -1,4 +1,4 @@
-FROM node:23-alpine3.21 AS builder
+FROM node:24-alpine3.22 AS builder
 
 WORKDIR /app
 
@@ -17,7 +17,7 @@ ARG APP_VERSION=dev
 
 RUN VITE_APP_VERSION=$APP_VERSION yarn run build --minify=true
 
-FROM nginxinc/nginx-unprivileged:1.28-alpine3.21-slim
+FROM nginxinc/nginx-unprivileged:1.29-alpine3.22-slim
 
 WORKDIR /usr/share/nginx/html/bdd-tester/ui
 
