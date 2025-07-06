@@ -64,7 +64,7 @@ onUpdated(() => {
     <pre
       v-if="content"
       class="!my-0 !rounded-none !border-none p-2!"
-    ><code ref="contentEl" class="language-gherkin">{{ content.join("\n") }}</code></pre>
+    ><code ref="contentEl" class="language-gherkin !text-wrap">{{ content.join("\n") }}</code></pre>
     <template v-if="lastExec?.logs">
       <hr class="border-slate-300/50" />
       <pre class="language-none !my-0 !rounded-none !border-none p-2!">{{ lastExec.logs }}</pre>

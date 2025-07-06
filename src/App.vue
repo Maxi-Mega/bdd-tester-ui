@@ -142,8 +142,8 @@ function selectTest(test: Test | null, execID?: number) {
     class="flex h-7 w-full flex-row divide-x divide-slate-300/50 font-[Noto_Sans] text-lg text-neutral-200"
   >
     <h1 class="w-3/12 border-b text-center">Test Suites</h1>
-    <h1 class="w-4/12 border-b text-center">Tests</h1>
-    <h1 class="w-5/12 border-b border-slate-300/50 text-center">
+    <h1 class="w-3/12 border-b text-center">Tests</h1>
+    <h1 class="w-6/12 border-b border-slate-300/50 text-center">
       <template v-if="selectedTest || (selectedSuite && selectedSuite.name !== NO_SUITE_NAME)"
         >Details</template
       >
@@ -156,11 +156,11 @@ function selectTest(test: Test | null, execID?: number) {
       <Suites :loading="suitesLoading" @selectSuite="selectSuite" />
     </div>
     <!-- Tests -->
-    <div class="mb-7 w-4/12 overflow-auto pb-16">
+    <div class="mb-7 w-3/12 overflow-auto pb-16">
       <Tests v-if="selectedSuite" :loading="testsLoading" @selectTest="selectTest" />
     </div>
     <!-- Details -->
-    <div class="mb-7 w-5/12 overflow-auto pb-14">
+    <div class="mb-7 w-6/12 overflow-auto pb-14">
       <Details
         v-if="selectedTest"
         kind="Test"

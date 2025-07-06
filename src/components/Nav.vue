@@ -12,7 +12,7 @@ const version = import.meta.env.VITE_APP_VERSION;
 <template>
   <nav
     aria-label="Global"
-    class="w-full border-b border-slate-300/50 py-3 pr-4 pl-9 sm:flex sm:items-center sm:justify-between"
+    class="w-full border-b border-slate-300/50 py-3 pr-4 pl-5 sm:flex sm:items-center sm:justify-between"
   >
     <div class="flex items-center justify-between gap-10">
       <img
