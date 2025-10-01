@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases/ .yarn/releases/
-RUN corepack enable && yarn set version 4.9.1
+RUN corepack enable && yarn set version 4.10.3
 # Installing dependencies now, so as not to refetch them all when something in src changes
 RUN yarn install
 

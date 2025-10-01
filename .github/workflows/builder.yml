@@ -1,0 +1,56 @@
+name: Generate & release build image
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:    # allow manual runs
+
+permissions:
+  contents: write
+
+env:
+  IMAGE_NAME: bdd-tester-ui-build
+  REGISTRY: ghcr.io
+
+jobs:
+  build-archive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image (linux/amd64) and load to local docker
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile_build
+          platforms: linux/amd64
+          load: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+            ${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Save Docker image to tar
+        run: |
+          IMAGE="${{ env.IMAGE_NAME }}:${{ github.ref_name }}"
+          TAR="image-${{ github.ref_name }}-linux-amd64.tar"
+          docker image save "$IMAGE" -o "$TAR"
+          gzip -9 "$TAR"
+          echo "ARCHIVE=${TAR}.gz" >> $GITHUB_ENV
+
+      - name: Upload artifact to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.ARCHIVE }}
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }} # e.g. v1.2.3-rc.1 as prerelease
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

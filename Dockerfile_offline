@@ -1,4 +1,10 @@
-FROM bdd-tester-ui-base:v0.0.9 AS builder
+FROM bdd-tester-ui-build:v0.0.10 AS builder
+
+ENV YARN_ENABLE_NETWORK=0
+
+WORKDIR /app
+
+RUN corepack enable
 
 COPY env.d.ts postcss.config.js tailwind.config.js tsconfig.app.json tsconfig.json tsconfig.node.json vite.config.ts ./
 COPY index.html .
