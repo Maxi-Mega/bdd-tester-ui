@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -40,7 +40,7 @@ jobs:
       - name: Save Docker image to tar
         run: |
           IMAGE="${{ env.IMAGE_NAME }}:${{ github.ref_name }}"
-          TAR="image-${{ github.ref_name }}-linux-amd64.tar"
+          TAR="${{ env.IMAGE_NAME }}-${{ github.ref_name }}.tar"
           docker image save "$IMAGE" -o "$TAR"
           gzip -9 "$TAR"
           echo "ARCHIVE=${TAR}.gz" >> $GITHUB_ENV
