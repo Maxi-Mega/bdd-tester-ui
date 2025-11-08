@@ -2,6 +2,7 @@ FROM node:25-alpine3.22 AS builder
 
 WORKDIR /app
 
+RUN npm install -g --force corepack
 RUN yarn set version 4.10.3
 
 COPY package.json yarn.lock .yarnrc.yml ./
