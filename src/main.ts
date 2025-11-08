@@ -20,7 +20,6 @@ declare global {
 }
 
 app.use(pinia);
-// @ts-expect-error
 app.use(VueApexCharts);
 
 app.mount("#app");

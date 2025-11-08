@@ -1,4 +1,4 @@
-FROM bdd-tester-ui-build:v0.0.10 AS builder
+FROM bdd-tester-ui-build:v0.0.12 AS builder
 
 ENV YARN_ENABLE_NETWORK=0
 
