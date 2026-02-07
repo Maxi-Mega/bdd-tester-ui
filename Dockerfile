@@ -1,10 +1,10 @@
-FROM node:25-alpine3.23 AS builder
+FROM node:25.6-alpine3.23 AS builder
 
 WORKDIR /app
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases/ .yarn/releases/
-RUN yarn set version 4.10.3
+RUN yarn set version 4.12.0
 # Installing dependencies now, so as not to refetch them all when something in src changes
 RUN yarn install
 
@@ -17,7 +17,7 @@ ARG APP_VERSION=dev
 
 RUN VITE_APP_VERSION=$APP_VERSION yarn run build --minify=true
 
-FROM nginxinc/nginx-unprivileged:1.29-alpine3.22-slim
+FROM nginxinc/nginx-unprivileged:1.29-alpine3.23-slim
 
 WORKDIR /usr/share/nginx/html/bdd-tester/ui
 

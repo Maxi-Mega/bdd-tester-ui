@@ -1,4 +1,4 @@
-FROM bdd-tester-ui-build:v0.0.13 AS builder
+FROM bdd-tester-ui-build:v0.0.14 AS builder
 
 ENV YARN_ENABLE_NETWORK=0
 
@@ -15,7 +15,7 @@ ARG APP_VERSION=dev
 
 RUN VITE_APP_VERSION=$APP_VERSION yarn run build
 
-FROM nginxinc/nginx-unprivileged:1.29-alpine3.22-slim
+FROM nginxinc/nginx-unprivileged:1.29-alpine3.23-slim
 
 WORKDIR /usr/share/nginx/html/bdd-tester/ui
 
