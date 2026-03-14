@@ -1,8 +1,8 @@
 import VueApexCharts from "vue3-apexcharts";
 
 import { createPinia } from "pinia";
-import "preline/preline";
-import type { IStaticMethods } from "preline/preline";
+import "preline";
+import { HSStaticMethods } from "preline";
 import { createApp } from "vue";
 
 import App from "./App.vue";
@@ -14,7 +14,7 @@ const app = createApp(App);
 
 declare global {
   interface Window {
-    HSStaticMethods: IStaticMethods;
+    HSStaticMethods: typeof HSStaticMethods;
     _: unknown;
   }
 }

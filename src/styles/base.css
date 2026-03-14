@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@import "preline/variants.css";
-@import "preline/src/plugins/dropdown/variants.css";
+@import "../../node_modules/preline/variants.css";
+@import "../../node_modules/@preline/dropdown/variants.css";
 
 @tailwind utilities;
 

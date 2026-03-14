@@ -1,10 +1,10 @@
-FROM node:25.6-alpine3.23 AS builder
+FROM node:25.8-alpine3.23 AS builder
 
 WORKDIR /app
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases/ .yarn/releases/
-RUN yarn set version 4.12.0
+RUN yarn set version 4.13.0
 # Installing dependencies now, so as not to refetch them all when something in src changes
 RUN yarn install
 
