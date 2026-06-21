@@ -1,12 +1,24 @@
 <script setup lang="ts">
 import { useDataStore } from "../stores/data.ts";
 import { useStaticInfoStore } from "../stores/static-info.ts";
+import { X } from "@lucide/vue";
+import { useTemplateRef } from "vue";
 
 import FilterDropdown from "./FilterDropdown.vue";
 
 const infoStore = useStaticInfoStore();
 const dataStore = useDataStore();
 const version = import.meta.env.VITE_APP_VERSION;
+
+const textSearchInput = useTemplateRef<HTMLInputElement>("filters-text-search");
+
+function clearTextSearchInput() {
+  if (textSearchInput.value) {
+    (document.getElementById(textSearchInput.value.id) as HTMLInputElement).value = "";
+    dataStore.searchQuery = "";
+    textSearchInput.value.focus();
+  }
+}
 </script>
 
 <template>
@@ -40,14 +52,26 @@ const version = import.meta.env.VITE_APP_VERSION;
       class="mt-5 flex flex-row items-center gap-x-10 overflow-x-auto pb-2 sm:mt-0 sm:justify-end sm:overflow-x-visible sm:ps-5 sm:pb-0"
     >
       <div class="flex flex-row items-center gap-x-5">
-        <input
-          type="search"
-          class="block min-w-2xs rounded-md border border-gray-100 bg-transparent px-2 py-1 text-base text-gray-200 placeholder-gray-300 placeholder-shown:border-neutral-200 focus:border-blue-500 focus:ring-neutral-600"
-          placeholder="Search"
-          @input="
-            (e) => (dataStore.searchQuery = (e.target as HTMLInputElement).value.toLowerCase())
-          "
-        />
+        <div class="relative">
+          <input
+            id="filters-text-search"
+            ref="filters-text-search"
+            type="search"
+            class="block min-w-2xs rounded-md border border-gray-100 bg-transparent px-2 py-1 text-base text-gray-200 placeholder-gray-300 placeholder-shown:border-neutral-200 focus:border-blue-500 focus:ring-neutral-600"
+            placeholder="Search"
+            @input="
+              (e) => (dataStore.searchQuery = (e.target as HTMLInputElement).value.toLowerCase())
+            "
+          />
+          <button
+            type="button"
+            title="Clear input"
+            class="text-muted-foreground focus:text-primary-focus absolute inset-y-0 inset-e-0 z-20 flex cursor-pointer items-center rounded-e-md px-1 focus:outline-hidden"
+            @click="clearTextSearchInput"
+          >
+            <X :size="16" color="var(--color-gray-100)" />
+          </button>
+        </div>
         <p class="min-w-fit text-lg text-white">
           ({{ dataStore.selectedTestsCount }} / {{ dataStore.testsCount }})
         </p>
