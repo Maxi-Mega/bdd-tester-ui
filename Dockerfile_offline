@@ -1,10 +1,8 @@
-FROM bdd-tester-ui-build:v0.0.15 AS builder
+FROM bdd-tester-ui-build:v0.0.16 AS builder
 
 ENV YARN_ENABLE_NETWORK=0
 
 WORKDIR /app
-
-RUN corepack enable
 
 COPY env.d.ts postcss.config.js tailwind.config.js tsconfig.app.json tsconfig.json tsconfig.node.json vite.config.ts ./
 COPY index.html .
@@ -13,9 +11,9 @@ COPY src/ src/
 
 ARG APP_VERSION=dev
 
-RUN VITE_APP_VERSION=$APP_VERSION yarn run build
+RUN VITE_APP_VERSION=$APP_VERSION node .yarn/releases/yarn-4.17.0.cjs run build
 
-FROM nginxinc/nginx-unprivileged:1.29-alpine3.23-slim
+FROM nginxinc/nginx-unprivileged:1.31-alpine3.23-slim
 
 WORKDIR /usr/share/nginx/html/bdd-tester/ui
 

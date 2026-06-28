@@ -1,11 +1,8 @@
-FROM node:25.8-alpine3.23 AS builder
+FROM node:26.3-alpine3.24 AS builder
 
 WORKDIR /app
-
-RUN npm install -g --force corepack
-RUN yarn set version 4.13.0
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/ .yarn/
 
-RUN yarn install --immutable --inline-builds
+RUN node .yarn/releases/yarn-4.17.0.cjs install --immutable --inline-builds
